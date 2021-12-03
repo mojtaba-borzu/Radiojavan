@@ -368,7 +368,7 @@ function Traks() {
       <div className="w-full flex flex-row mx-auto container ">
         <div className="w-full flex flex-col items-center justify-center py-[30px]">
           <div className="w-full flex flex-col justify-center gap-[10px]">
-            <div className="h-full flex flex-row justify-center  text-white text-[20px]">
+            <div className="h-full flex flex-row justify-center  text-white text-[14px] gap-[10px]">
               <span className="text-[#e0e0e0]">
                 {rowTracks.find((track: any) => track.id == tracks).value}
               </span>
@@ -380,7 +380,7 @@ function Traks() {
               className="w-[320px] rounded-lg"
               src={rowTracks.find((track: any) => track.id == tracks).iconUrl}
             />
-            <div className="h-full flex flex-col justify-center  text-white text-[20px]"></div>
+            <div className="h-full flex flex-col justify-center  text-white "></div>
           </div>
           <div className="text-white font-medium text-[20px]">
             &#9829;

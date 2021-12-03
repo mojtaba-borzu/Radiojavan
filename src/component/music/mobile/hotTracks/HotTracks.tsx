@@ -74,7 +74,7 @@ function HotTracks() {
                 key={playlists.id}
               >
                 {/* {console.log(tracks)} */}
-                <div className="relative w-8/12 flex flex-col justify-center items-center hover:scale-105 duration-500 hover:opacity-100 opacity-80 cursor-pointer ">
+                <div className="relative w-full flex flex-col justify-center items-center hover:scale-105 duration-500 hover:opacity-100 opacity-80 cursor-pointer ">
                   <img className=" rounded-md" src={playlists.iconUrl} />
                   <div className="px-[10px] w-full flex justify-start text-white text-[12px] ">
                     {playlists.value}
