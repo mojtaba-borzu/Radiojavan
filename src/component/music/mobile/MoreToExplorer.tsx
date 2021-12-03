@@ -50,22 +50,22 @@ function MoreToExplorer() {
     <div className="w-full flex flex-col gap-[30px]">
       <div className="w-full flex justify-center text-[20px] text-white px-[20px] ">
         <div className="w-full flex flex-row justify-between ">
-          <div className="text-[30px]">More To Explorer </div>
-          <div className="flex items-center border border-gray-700 px-[5px] rounded-lg text-[16px] cursor-pointer">
+          <div className="text-[20px]">More To Explorer </div>
+          <div className="flex items-center border border-gray-700 px-[5px] rounded-lg text-[14px] cursor-pointer">
             View More
           </div>
         </div>
       </div>
       <div className="w-full flex justify-between px-[20px]  gap-[10px]">
-        {rowMoreToExplorer.map((playlists: any) => {
+        {rowMoreToExplorer.slice(0, 3).map((playlists: any) => {
           return (
             <div key={playlists.id}>
-              <div className="relative w-full flex flex-col justify-center items-center hover:scale-105 duration-500 hover:opacity-100 opacity-80 cursor-pointer ">
+              <div className="relative w-8/12 flex flex-col justify-center items-center hover:scale-105 duration-500 hover:opacity-100 opacity-80 cursor-pointer ">
                 <img className="rounded-md" src={playlists.iconUrl} />
-                <div className="px-[10px] w-full flex justify-start text-white ">
+                <div className="px-[10px] w-full flex justify-start text-white text-[12px]">
                   {playlists.value}
                 </div>
-                <div className="px-[10px] w-full flex justify-start text-white font-medium ">
+                <div className="px-[10px] w-full flex justify-start text-white font-medium text-[12px]">
                   {playlists.label}
                 </div>
               </div>
