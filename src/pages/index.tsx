@@ -1,56 +1,41 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Header from "../component/music/desktop/Header";
+import Landing from "../component/music/desktop/Landing";
 
 import Counter from "../features/counter/Counter";
+import music from "./music";
 
 const IndexPage: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Redux Toolkit</title>
+        <title>Radio javan</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <header>
-        <img src="/logo.svg" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span className="text-[50px] font-semibold">Learn </span>
-          <a
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span className="text-red-600"> and </span>
-          <a
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <div className=" w-full h-full flex flex-col  items-center bg-black">
+        <div className="fixed top-0  mx-auto container py-[10px] px-[10px]  w-full h-[70px] flex justify-center items-center  z-20  ">
+          <div className="  w-full h-full flex justify-center border border-gray-700 text-white rounded-lg bg-black opacity-80">
+            <button className="w-1/2 h-full flex flex-row justify-start items-center text-[20px] px-[20px] font-medium ">
+              <img className="w-[80px] h-[40px]" src="/images/radiojavan.png" />
+              <span className="text-[24px] ">R</span>ADIO{" "}
+              <span className="text-[24px] ">J</span>AVAN
+            </button>
+            <div className="w-1/2 h-full  text-white flex justify-end items-center gap-[20px] px-[20px]">
+              <button className="font-semibold">Music </button>
+              <button className="font-semibold">Playlists</button>
+              <button className="font-semibold">Videos</button>
+              <button className="font-semibold">Podcasts</button>
+              <button className="font-semibold">RJTV</button>
+              <button className="font-semibold">Events</button>
+            </div>
+          </div>
+        </div>
+        <main className="w-full container mx-auto flex flex-col gap-[40px] mt-[80px]">
+          <Header />
+          <Landing />
+        </main>
+      </div>
     </div>
   );
 };
