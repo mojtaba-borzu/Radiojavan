@@ -1,5 +1,7 @@
+//libraries
 import React from "react";
 
+//components
 import Tracks from "./Tracks";
 
 //redux
@@ -53,7 +55,10 @@ const rowHotTracks = [
 ];
 
 function HotTracks() {
+  //insrance
   const dispatch = useAppDispatch();
+
+  //selectors
   const tracks = useAppSelector(selectTrack);
   return (
     <>

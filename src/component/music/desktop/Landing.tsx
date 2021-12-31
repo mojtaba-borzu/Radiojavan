@@ -3,7 +3,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import HotTracks from "./hotTracks/HotTracks";
 import MoreToExplorer from "./MoreToExplorer";
-import Playlists from "./Playlists";
+import Playlists from "./playlists.tsx/Playlists";
 import PopularArtists from "./PopularArtists";
 
 function Landing() {

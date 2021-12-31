@@ -2,10 +2,15 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 
 import counterReducer from "../features/counter/counterSlice";
 import hotTracksReducer from "./slice/hotTracks";
+import playlistTracksReducer from "./slice/playlistTraksSlice";
 
 export function makeStore() {
   return configureStore({
-    reducer: { counter: counterReducer, hotTracks: hotTracksReducer },
+    reducer: {
+      counter: counterReducer,
+      hotTracks: hotTracksReducer,
+      playlistTracks: playlistTracksReducer,
+    },
   });
 }
 
