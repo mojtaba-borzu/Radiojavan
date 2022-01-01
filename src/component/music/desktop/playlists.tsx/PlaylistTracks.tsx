@@ -285,7 +285,7 @@ const rowTracks = [
       {
         id: 5,
         value: "Soohrab Pakzad",
-        label: "Nago Na",
+        label: "Nago",
         iconUrl:
           "https://assets.rjassets.com/static/mp3/sohrab-pakzad-nagoo-na/1c1ddce6b549fec-thumb.jpg",
       },
