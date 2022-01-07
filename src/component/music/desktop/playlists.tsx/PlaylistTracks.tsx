@@ -4,9 +4,16 @@ import React, { useState } from "react";
 //redux
 import {
   selectPlaylist,
+  selectPlayTraks,
+  setPlayTraks,
   setPlaylist,
+  selectShiftPlayTracks,
+  setShiftPlayTracks,
 } from "../../../../app/slice/playlistTraksSlice";
+//redux
+
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
+import PlayMusic from "./PlayMusic";
 
 const rowTracks = [
   {
@@ -294,7 +301,11 @@ const rowTracks = [
 ];
 
 function PlaylistTracks() {
+  //instance
+
   const [details, setDetails] = useState(false);
+  const [play, setPlay] = useState(false);
+  const shiftPlayTracks = useAppSelector(selectShiftPlayTracks);
   const dispatch = useAppDispatch();
 
   //selectors
@@ -305,7 +316,10 @@ function PlaylistTracks() {
       <div className="mx-auto container w-full h-[30px]  px-[10px]">
         <div className="w-full h-full border-t border-b  px-[10px] flex items-center">
           <div
-            onClick={() => dispatch(setPlaylist(null))}
+            onClick={() => {
+              dispatch(setPlaylist(null));
+              dispatch(setShiftPlayTracks(false));
+            }}
             className="hover:text-red-600 cursor-pointer text-white text-[20px] font-medium"
           >
             Back
@@ -313,73 +327,92 @@ function PlaylistTracks() {
         </div>
       </div>
       <div className="w-full flex flex-row mx-auto container ">
-        <div className="w-9/12 flex flex-col items-center justify-center py-[30px]">
-          <div className="w-full flex flex-row justify-center gap-[10px]">
-            <img
-              className="w-[320px] rounded-lg"
-              src={
-                rowTracks.find((track: any) => track.id == playlists).iconUrl
-              }
-            />
-          </div>
-          <div className="mt-[5px] text-white font-medium text-[14px]">
-            {` ${rowTracks.find((track: any) => track.id == playlists).name}  `}
-          </div>
+        {play ? (
+          <PlayMusic />
+        ) : (
+          <div className="w-9/12 flex flex-col items-center justify-center py-[30px]">
+            <div className="w-full flex flex-row justify-center gap-[10px]">
+              <img
+                className="w-[320px] rounded-lg"
+                src={
+                  rowTracks.find((track: any) => track.id == playlists).iconUrl
+                }
+              />
+            </div>
+            <div className="mt-[5px] text-white font-medium text-[14px]">
+              {` ${
+                rowTracks.find((track: any) => track.id == playlists).name
+              }  `}
+            </div>
 
-          <div className="mt-[10px] text-white font-medium text-[16px]">
-            {`Created by Radio Javan | 50 Songs | ${
-              rowTracks.find((track: any) => track.id == playlists).followers
-            } followers `}
-          </div>
-          <div className="mt-[20px] w-full flex flex-row items-center justify-center gap-6">
-            <div className=" h-[50px] bg-gray-500 rounded-md flex justify-center items-center text-white gap-2 px-[10px] cursor-pointer">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={30}
-                height={30}
-                viewBox="0 0 24 24"
-                fill="currentColor"
+            <div className="mt-[10px] text-white font-medium text-[16px]">
+              {`Created by Radio Javan | 50 Songs | ${
+                rowTracks.find((track: any) => track.id == playlists).followers
+              } followers `}
+            </div>
+            <div className="mt-[20px] w-full flex flex-row items-center justify-center gap-6">
+              <div
+                onClick={() => {
+                  dispatch(setShiftPlayTracks(true));
+                  dispatch(setPlayTraks(1));
+                  setPlay(true);
+                }}
+                className=" h-[50px] bg-gray-500 rounded-md flex justify-center items-center text-white gap-2 px-[10px] cursor-pointer"
               >
-                <path
-                  d="M20.6692753,18 L12.5096495,18 C12.2281779,18 12,17.7680664 12,17.5 C12,17.2238576 12.2276528,17 12.5096495,17 L20.6692753,17 L17.6707477,14.3762883 C17.4629294,14.1944473 17.4418706,13.878566 17.6237117,13.6707477 C17.8055527,13.4629294 18.121434,13.4418706 18.3292523,13.6237117 L22.3292523,17.1237117 C22.5569159,17.3229173 22.5569159,17.6770827 22.3292523,17.8762883 L18.3292523,21.3762883 C18.121434,21.5581294 17.8055527,21.5370706 17.6237117,21.3292523 C17.4418706,21.121434 17.4629294,20.8055527 17.6707477,20.6237117 L20.6692753,18 Z M20.6692753,7 L17.6707477,4.37628835 C17.4629294,4.19444732 17.4418706,3.87856601 17.6237117,3.6707477 C17.8055527,3.46292938 18.121434,3.44187063 18.3292523,3.62371165 L22.3292523,7.12371165 C22.5569159,7.3229173 22.5569159,7.6770827 22.3292523,7.87628835 L18.3292523,11.3762883 C18.121434,11.5581294 17.8055527,11.5370706 17.6237117,11.3292523 C17.4418706,11.121434 17.4629294,10.8055527 17.6707477,10.6237117 L20.6692753,8 L14.7403124,8 L6.74031242,18 L1.40098049,18 C1.12483811,18 0.900980486,17.7761424 0.900980486,17.5 C0.900980486,17.2238576 1.12483811,17 1.40098049,17 L6.25968758,17 L14.2596876,7 L20.6692753,7 Z M1,7.5 C1,7.22385763 1.22247314,7 1.50966585,7 L9.49033415,7 C9.77181483,7 10,7.23193359 10,7.5 C10,7.77614237 9.77752686,8 9.49033415,8 L1.50966585,8 C1.22818517,8 1,7.76806641 1,7.5 Z"
-                  id="path-1"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={30}
+                  height={30}
+                  viewBox="0 0 24 24"
                   fill="currentColor"
-                ></path>
-              </svg>{" "}
-              Shuffle
-            </div>
-            <div className=" h-[50px] bg-gray-500 rounded-md flex justify-center items-center text-white gap-2 px-[10px] cursor-pointer">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={30}
-                height={30}
-                viewBox="0 0 24 24"
-                fill="white"
+                >
+                  <path
+                    d="M20.6692753,18 L12.5096495,18 C12.2281779,18 12,17.7680664 12,17.5 C12,17.2238576 12.2276528,17 12.5096495,17 L20.6692753,17 L17.6707477,14.3762883 C17.4629294,14.1944473 17.4418706,13.878566 17.6237117,13.6707477 C17.8055527,13.4629294 18.121434,13.4418706 18.3292523,13.6237117 L22.3292523,17.1237117 C22.5569159,17.3229173 22.5569159,17.6770827 22.3292523,17.8762883 L18.3292523,21.3762883 C18.121434,21.5581294 17.8055527,21.5370706 17.6237117,21.3292523 C17.4418706,21.121434 17.4629294,20.8055527 17.6707477,20.6237117 L20.6692753,18 Z M20.6692753,7 L17.6707477,4.37628835 C17.4629294,4.19444732 17.4418706,3.87856601 17.6237117,3.6707477 C17.8055527,3.46292938 18.121434,3.44187063 18.3292523,3.62371165 L22.3292523,7.12371165 C22.5569159,7.3229173 22.5569159,7.6770827 22.3292523,7.87628835 L18.3292523,11.3762883 C18.121434,11.5581294 17.8055527,11.5370706 17.6237117,11.3292523 C17.4418706,11.121434 17.4629294,10.8055527 17.6707477,10.6237117 L20.6692753,8 L14.7403124,8 L6.74031242,18 L1.40098049,18 C1.12483811,18 0.900980486,17.7761424 0.900980486,17.5 C0.900980486,17.2238576 1.12483811,17 1.40098049,17 L6.25968758,17 L14.2596876,7 L20.6692753,7 Z M1,7.5 C1,7.22385763 1.22247314,7 1.50966585,7 L9.49033415,7 C9.77181483,7 10,7.23193359 10,7.5 C10,7.77614237 9.77752686,8 9.49033415,8 L1.50966585,8 C1.22818517,8 1,7.76806641 1,7.5 Z"
+                    id="path-1"
+                    fill="currentColor"
+                  ></path>
+                </svg>{" "}
+                Shuffle
+              </div>
+              <div
+                onClick={() => {
+                  dispatch(setPlayTraks(1));
+                  setPlay(true);
+                }}
+                className=" h-[50px] bg-gray-500 rounded-md flex justify-center items-center text-white gap-2 px-[10px] cursor-pointer"
               >
-                <path
-                  d="M17.8580054,10.232628 C19.5932811,11.2087206 19.5941297,12.7908021 17.8580054,13.767372 L8.14199463,19.232628 C6.40671891,20.2087206 5,19.3867791 5,17.400693 L5,6.59930697 C5,4.61146462 6.40587035,3.79080207 8.14199463,4.76737198 L17.8580054,10.232628 Z"
-                  id="path-1"
-                ></path>
-              </svg>{" "}
-              Play
-            </div>
-            <div className=" h-[50px] bg-gray-500 rounded-md flex justify-center items-center text-white gap-2 px-[10px] cursor-pointer">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={30}
-                height={30}
-                viewBox="0 0 24 24"
-                fill="white"
-              >
-                <path
-                  d="M12,18.0969895 L17.5182676,21.1474128 L16.4643722,14.6865125 L20.9287445,10.1108776 L14.7591338,9.16824497 L12,3.28992377 L9.24086621,9.16824497 L3.07125551,10.1108776 L7.53562775,14.6865125 L6.48173243,21.1474128 L12,18.0969895 Z M12,19.2419513 L5.20162612,23 L6.5,15.0403252 L1,9.40325225 L8.60081306,8.24195135 L12,1 L15.3991869,8.24195135 L23,9.40325225 L17.5,15.0403252 L18.7983739,23 L12,19.2419513 Z"
-                  id="path-1"
-                ></path>
-              </svg>{" "}
-              Follow
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={30}
+                  height={30}
+                  viewBox="0 0 24 24"
+                  fill="white"
+                >
+                  <path
+                    d="M17.8580054,10.232628 C19.5932811,11.2087206 19.5941297,12.7908021 17.8580054,13.767372 L8.14199463,19.232628 C6.40671891,20.2087206 5,19.3867791 5,17.400693 L5,6.59930697 C5,4.61146462 6.40587035,3.79080207 8.14199463,4.76737198 L17.8580054,10.232628 Z"
+                    id="path-1"
+                  ></path>
+                </svg>{" "}
+                Play
+              </div>
+              <div className=" h-[50px] bg-gray-500 rounded-md flex justify-center items-center text-white gap-2 px-[10px] cursor-pointer">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={30}
+                  height={30}
+                  viewBox="0 0 24 24"
+                  fill="white"
+                >
+                  <path
+                    d="M12,18.0969895 L17.5182676,21.1474128 L16.4643722,14.6865125 L20.9287445,10.1108776 L14.7591338,9.16824497 L12,3.28992377 L9.24086621,9.16824497 L3.07125551,10.1108776 L7.53562775,14.6865125 L6.48173243,21.1474128 L12,18.0969895 Z M12,19.2419513 L5.20162612,23 L6.5,15.0403252 L1,9.40325225 L8.60081306,8.24195135 L12,1 L15.3991869,8.24195135 L23,9.40325225 L17.5,15.0403252 L18.7983739,23 L12,19.2419513 Z"
+                    id="path-1"
+                  ></path>
+                </svg>{" "}
+                Follow
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <div className=" w-3/12">
           <div className="mt-[10px] flex flex-col ">

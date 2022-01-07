@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 //redux
-import { setTrack, selectTrack } from "../../../../app/slice/hotTracks";
+import {
+  selectPlayTraks,
+  selectShiftPlayTracks,
+  setShiftPlayTracks,
+} from "../../../../app/slice/playlistTraksSlice";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 
 const rowTracks = [
@@ -349,46 +353,40 @@ const rowTracks = [
   },
 ];
 
-function Traks() {
+function PlayMusic() {
   const [details, setDetails] = useState(false);
   const dispatch = useAppDispatch();
-  const tracks = useAppSelector(selectTrack);
+  const tracks = useAppSelector(selectPlayTraks);
+  const [trackPlay, setTrakPlay] = useState(tracks);
+  const shiftPlayTracks = useAppSelector(selectShiftPlayTracks);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-black  z-10 overflow-hidden py-[100px] flex flex-col items-start px-[30px]">
-      <div className="mx-auto container w-full h-[30px]  px-[10px]">
-        <div className="w-full h-full border-t border-b  px-[10px] flex items-center">
-          <div
-            onClick={() => dispatch(setTrack(null))}
-            className="hover:text-red-600 cursor-pointer text-white text-[20px] font-medium"
-          >
-            Back
-          </div>
-        </div>
-      </div>
-      <div className="w-full flex flex-row mx-auto container ">
+    <>
+      <>
         <div className="w-9/12 flex flex-col items-center justify-center py-[30px]">
           <div className="w-full flex flex-row justify-center gap-[10px]">
             <img
               className="w-[320px] rounded-lg"
-              src={rowTracks.find((track: any) => track.id == tracks).iconUrl}
+              src={
+                rowTracks.find((track: any) => track.id == trackPlay).iconUrl
+              }
             />
             <div className="h-full flex flex-col justify-center  text-white text-[20px]">
               <div className="h-full flex flex-col justify-center  text-white text-[20px]">
                 <span className="text-[#e0e0e0]">
-                  {rowTracks.find((track: any) => track.id == tracks).value}
+                  {rowTracks.find((track: any) => track.id == trackPlay).value}
                 </span>
                 <span>
-                  {rowTracks.find((track: any) => track.id == tracks).label}
+                  {rowTracks.find((track: any) => track.id == trackPlay).label}
                 </span>
               </div>
 
               <div className="h-full flex flex-col justify-center  text-white text-[20px]">
                 <span className="text-[#e0e0e0]">
-                  {rowTracks.find((track: any) => track.id == tracks).pValue}
+                  {rowTracks.find((track: any) => track.id == trackPlay).pValue}
                 </span>
                 <span>
-                  {rowTracks.find((track: any) => track.id == tracks).pLabel}
+                  {rowTracks.find((track: any) => track.id == trackPlay).pLabel}
                 </span>
               </div>
             </div>
@@ -396,30 +394,30 @@ function Traks() {
           <div className="text-white font-medium text-[20px]">
             &#9829;
             {` ${
-              rowTracks.find((track: any) => track.id == tracks).likes
+              rowTracks.find((track: any) => track.id == trackPlay).likes
             } likes `}
           </div>
-          {/* <div className="w-full flex flex-row justify-center items-center gap-[10px] ">
-            <span className="text-white">
-              {rowTracks.find((track: any) => track.id == tracks).timeStart}
-            </span>
-            <div className="w-4/12 h-[5px] bg-gray-300 flex items-center">
-              <div
-                className={`w-[10%] h-[5px] flex items-center justify-end bg-red-600 `}
-              >
-                <div className="w-[15px] h-[15px] rounded-full bg-gray-100"></div>
-              </div>
-            </div>
-            <span className="text-white">
-              {rowTracks.find((track: any) => track.id == tracks).timeEnd}
-            </span>
-          </div> */}
+
           <div className="my-[10px] w-6/12  h-[50px] flex justify-center items-center  font-medium text-white ">
             <audio
+              onEnded={() => {
+                !shiftPlayTracks &&
+                  rowTracks.length > trackPlay &&
+                  setTrakPlay(trackPlay + 1);
+                shiftPlayTracks &&
+                  setTrakPlay(
+                    Math.floor(Math.random() * (rowTracks.length - 0 + 1)) == 0
+                      ? 1
+                      : Math.floor(Math.random() * (rowTracks.length - 0 + 1))
+                  );
+              }}
               controls
               className="w-full h-full "
               preload="none"
-              src={rowTracks.find((track: any) => track.id == tracks).musicUrl}
+              autoPlay
+              src={
+                rowTracks.find((track: any) => track.id == trackPlay).musicUrl
+              }
             >
               music
             </audio>
@@ -439,68 +437,40 @@ function Traks() {
           >
             <span>
               {`Plays:  ${
-                rowTracks.find((track: any) => track.id == tracks).Plays
+                rowTracks.find((track: any) => track.id == trackPlay).Plays
               }`}
             </span>
             <span>
               {`Date: ${
-                rowTracks.find((track: any) => track.id == tracks).Date
+                rowTracks.find((track: any) => track.id == trackPlay).Date
               }`}
             </span>
             <span>
               {`Music: ${
-                rowTracks.find((track: any) => track.id == tracks).Music
+                rowTracks.find((track: any) => track.id == trackPlay).Music
               }`}
             </span>
             <span>
               {`Lyrics: ${
-                rowTracks.find((track: any) => track.id == tracks).Lyrics
+                rowTracks.find((track: any) => track.id == trackPlay).Lyrics
               }`}
             </span>
             <span>
               {`Arrangement: ${
-                rowTracks.find((track: any) => track.id == tracks).Arrangement
+                rowTracks.find((track: any) => track.id == trackPlay)
+                  .Arrangement
               }`}
             </span>
             <span>
               {`Mastering: ${
-                rowTracks.find((track: any) => track.id == tracks).Mastering
+                rowTracks.find((track: any) => track.id == trackPlay).Mastering
               }`}
             </span>
           </div>
         </div>
-
-        <div className=" w-3/12">
-          <div className="mt-[10px] flex flex-col ">
-            {rowTracks
-              .find((track: any) => track.id == tracks)
-              .playlist.map((playlists: any) => (
-                <div
-                  key={playlists.id}
-                  className="w-full flex flex-row justify-between items-center text-white gap-[20px] border-b border-l py-[10px] px-[10px]"
-                >
-                  <div className="flex flex-row justify-start gap-[20px] cursor-pointer">
-                    <img
-                      className="w-[60px] rounded-md"
-                      src={playlists.iconUrl}
-                    />
-                    <div className="flex flex-col gap-[5px]">
-                      <span>{playlists.value}</span>
-                      <span className="font-medium">{playlists.label}</span>
-                    </div>
-                  </div>
-                  <div className="relative w-[40px] h-[40px] rounded-lg bg-[#525252] text-[50px]  flex justify-center items-center cursor-pointer">
-                    <div className=" w-5/12 h-[2px] bg-white"></div>
-
-                    <div className="absolute w-5/12 h-[2px] bg-white rotate-90"></div>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
-      </div>
-    </div>
+      </>
+    </>
   );
 }
 
-export default Traks;
+export default PlayMusic;
